@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Guestbook</title>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <p>
+      <%= flash[:notice] %>
+    </p>
+    <% if flash[:notice] %>
+      <hr>
+    <% end %>
+
+    <%= yield %>
+
+  </body>
+</html>

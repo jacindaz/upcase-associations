@@ -1,0 +1,38 @@
+<h1>Welcome to My Guestbook</h1>
+<br>
+<%= image_tag("under_construction.gif") %>
+
+<div id="guestbook-entries">
+  <p>Guestbook Entries:</p>
+  <ul>
+    <% @guestbook_entries.each do |guestbook_entry| %>
+      <li>
+        <%= guestbook_entry.created_at.strftime("%b %d %Y:") %>
+        <%= guestbook_entry.body %>
+        <%= button_to "Like", guestbook_entry_likes_path(guestbook_entry) %>
+        <span class="like-count">0 Likes</span>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<div id="error-explanation">
+  <p>
+    <% if @guestbook_entry.errors.any? %>
+      <%= pluralize(@guestbook_entry.errors.count, "error") %>
+      prohibited this entry from being saved:
+    <% end %>
+  </p>
+
+  <ul>
+    <% @guestbook_entry.errors.full_messages.each do |error| %>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+</div>
+
+<%= form_for @guestbook_entry do |f| %>
+  <%= f.label :body, "Guestbook Entry:" %>
+  <%= f.text_area :body %>
+  <%= f.submit "Submit" %>
+<% end %>
