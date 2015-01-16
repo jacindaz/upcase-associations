@@ -1,17 +1,20 @@
 <h1>Welcome to My Guestbook</h1>
 <br>
-<%= image_tag("under_construction.gif") %>
 
 <div id="guestbook-entries">
-  <p>Guestbook Entries:</p>
+  <h2>Guestbook Entries:</h2>
   <ul>
-    <% @guestbook_entries.each do |guestbook_entry| %>
-      <li>
-        <%= guestbook_entry.created_at.strftime("%b %d %Y:") %>
-        <%= guestbook_entry.body %>
-        <%= button_to "Like", guestbook_entry_likes_path(guestbook_entry) %>
-        <span class="like-count">0 Likes</span>
-      </li>
+    <% if @guestbook_entries.any? %>
+      <% @guestbook_entries.each do |guestbook_entry| %>
+        <li>
+          <%= guestbook_entry.created_at.strftime("%b %d %Y:") %>
+          <%= guestbook_entry.body %>
+          <p class="like-count">
+            <%= button_to "Like", guestbook_entry_path(guestbook_entry), method: :patch, action: :update %>
+            <%= guestbook_entry.like ? "(#{guestbook_entry.like.num_likes} likes)" : '(0 likes)' %>
+          </p>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 </div>
@@ -31,8 +34,12 @@
   </ul>
 </div>
 
+<br>
+<hr>
+<br>
+
 <%= form_for @guestbook_entry do |f| %>
-  <%= f.label :body, "Guestbook Entry:" %>
-  <%= f.text_area :body %>
+  <h2><%= f.label :body, "Guestbook Entry:" %></h2>
+  <%= f.text_area :body, cols: 60, rows: 8 %><br>
   <%= f.submit "Submit" %>
 <% end %>
